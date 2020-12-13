@@ -7,7 +7,7 @@ import firebase from 'firebase';
 firebase.initializeApp(firebaseConfig);
 
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -29,7 +29,9 @@ export default function LoginScreen() {
     const loginUser = (email, password) => {
         try {
             firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
-                console.log(user);
+               // console.log(user.stsTokenManager.accessToken);
+               navigation.replace("GetLocation");
+                
             })
         } catch (error) {
             console.log(error.toString())
