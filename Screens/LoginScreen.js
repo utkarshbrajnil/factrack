@@ -52,27 +52,33 @@ export default function LoginScreen({navigation}) {
       
         <Container style={styles.container}>
         <ImageBackground source={image} style={styles.image} >
-        
-        <Form>
+        <Text style={styles.title}>TrackIT.</Text>
+        <Form style={{padding: 10}}>
             <Item 
                 rounded
             >
-                {/* <Label style={{marginLeft: 10}}>Email</Label> */}
-                <Icon name="email" style={{marginLeft: 10, opacity: 0.5}} color='white'/>
+                
+                <Icon name="email" style={{marginLeft: 10, opacity: 0.6}} color='white'/>
                 <Input 
                     autoCorrect = {false}
                     autoCapitalize = "none"
+                    placeholderTextColor="white"
+                    placeholder="Enter email"
+                    style={{color: 'white'}}
                     onChangeText = {email => setEmail(email)}
                 />
             </Item>
 
             <Item 
                 rounded 
-                style={{marginTop: 15}}
+                style={{marginTop: 10}}
             >
-                <Icon name="lock" style={{marginLeft: 10, opacity: 0.5}} color='white' />
+                <Icon name="lock" style={{marginLeft: 10, opacity: 0.6}} color='white' />
                 <Input 
                     secureTextEntry
+                    placeholderTextColor="white"
+                    placeholder="Enter password"
+                    style={{color: 'white'}}
                     autoCorrect = {false}
                     autoCapitalize = "none"
                     onChangeText = {pass => setPassword(pass)}
@@ -85,7 +91,14 @@ export default function LoginScreen({navigation}) {
                 style={{marginTop: 40, borderRadius: 20}}
                 onPress = {() => loginUser(email, password)}
             >
-                <Text style={{color: 'white'}}>Log In</Text>
+                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', opacity: 0.7}}>LOG IN</Text>
+            </Button>
+            <Button 
+                full
+                style={{marginTop: 40, borderRadius: 20, marginTop: 5, color: 'blue'}}
+                onPress = {() => signUpUser(email, password)}
+            >
+                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', opacity: 0.7}}>SIGN UP</Text>
             </Button>
         </Form>
           </ImageBackground>
@@ -101,7 +114,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    
     justifyContent: 'center',
   },
 
@@ -110,7 +122,7 @@ const styles = StyleSheet.create({
       fontSize: 60,
       alignSelf: 'center',
       marginTop: '20%',
-      color: 'green',
+      color: '#FFB81D',
       fontFamily: 'sans-serif-condensed',
       
         

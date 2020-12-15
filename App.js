@@ -31,6 +31,8 @@ export default function App() {
     // <NavigationContainer>
     //   <MyStack />
     // </NavigationContainer>
+
     <LoginScreen />
+    
   );
 }

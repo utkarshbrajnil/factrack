@@ -24,14 +24,9 @@ const ShowLocation = () => {
     const LAD = 0.1;
     const LOD = 0.5;
     const [search, updateSearch] = useState('');
-    const [lat, setLat] = useState();
-    const [long, setLong] = useState();
-    // var [region, setRegion] = useState({
-    //     latitude: lat,
-    //     longitude: long,
-    //     latitudeDelta: LAD,
-    //     longitudeDelta: LOD
-    //   });
+    const [lat, setLat] = useState(22);
+    const [long, setLong] = useState(22);
+    
     async function fetchData(){
           
         let lati = await firebase.database().ref("faculties").child(search).child("latitude");
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
 
     searchbar: {
         justifyContent: 'center',
-        marginTop: height,
+        //marginTop: height,
     },
 
     searchInput: {
