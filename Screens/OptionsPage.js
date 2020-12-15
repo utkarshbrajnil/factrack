@@ -1,58 +1,63 @@
 import React, {Component, useState} from 'react';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, Image,ImageBackground, TouchableOpacity } from 'react-native';
+import {Button} from 'native-base';
 import RadioButtonRN from 'radio-buttons-react-native';
 
 
+const image =  require('../assets/optionBG.png') ;
+// const teacher = require(`../assets/teacher.png`)
+// const student = require(`../assets/student.png`)
+const [choice,setChoice] = useState('../assets/teacher.png');
 
-export default function OptionsPage({navigation}){
-    const data = [
-        {
-          label: 'Teacher'
-         },
-         {
-          label: 'Student'
-         }
-        ];
-
-    const [choice, setchoice] = useState('')
-
-    const handlepress = () => {
-        if(choice=='Teacher')
-        {
-            navigation.navigate("Login");
-            console.log("Teacher");
-        }
-        else if (choice == 'Student')
-        {
-            navigation.navigate('Show');
-            console.log("Student");
-        }
-        else
-        {
-            alert('Select a choice!');
-        }
-    }
-
+ export default function OptionsPage({navigation}){
 
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Are you a teacher or student?</Text>
-            <RadioButtonRN style={styles.btn}
-        data={data}
-        selectedBtn={(e) => 
-            // console.log(e.label)
-            setchoice(e.label)
-        }
-      />
-      <View style={styles.btn2}>
-      <Button 
-      title="Next"
-      color="#005792"
-      onPress={()=> {handlepress()}}
-      />
-      </View>
-      
+            <ImageBackground source={image} style={styles.image} >
+            <View style={styles.avatar}>
+                <Image style={{height:250,width:250, flex:1}} 
+                source={require(choice)} />
+
+            </View>
+            {/* <View style={{flex:1}}></View> */}
+            <View style={styles.parentview}>
+                <TouchableOpacity 
+                onPress={()=>{
+                    setChoice('../assets/teacher.png')
+                }}>
+                    <View style={styles.optionview}>
+                    <Text>
+                        Teacher
+                    </Text>
+                    </View>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={()=>{
+                    setChoice('../assets/student.png')
+                    }}>
+                    <View style={styles.optionview}>
+                    <Text>
+                        Student
+                    </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <Button 
+                full
+                success
+                style={{
+                    margin: 40, 
+                    borderRadius: 20, 
+                    backgroundColor: '#FFB81D',
+
+                }}
+                onPress = {()=>console.log("PRESSED")}
+            >
+                <Text style={{color: '#0F2C52', fontSize: 22, fontWeight: '200',}}>Next</Text>
+            </Button>
+            
+      </ImageBackground>
       </View>
             
 
@@ -60,26 +65,47 @@ export default function OptionsPage({navigation}){
 }
 
 const styles = StyleSheet.create({
+    image: {
+        flex: 1,
+        justifyContent: "center",
+        
+      },
     container: {
-        padding: 15,
         justifyContent: "center",  
         flex: 1,
         backgroundColor: "rgba(217,250,255,1)"
     },
-    title:{
-        fontSize: 20,
-        fontFamily: "sans-serif-condensed",
-        fontWeight: "500",
-        padding: 15,
-        alignSelf: "center",
-    },
+    avatar:{
+        flex:1,
+        height:250,
+        width: 250,
+        borderRadius:125,
+        backgroundColor:"white",
+        // position: "absolute",
+        top:50,
+        alignSelf:'center',
 
-    btn:{
+    },
+    parentview:{
+        flex:1,
+        margin: 10,
         padding: 10,
-
+        // backgroundColor:'blue',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
     },
-    btn2:{
-        padding: 20,
-
+    optionImage:{
+        flex:1,
+        alignSelf: 'center',
     },
+    optionview:{
+        borderRadius:20,
+        width:150,
+        alignItems:"center",
+        justifyContent:"center",
+        height:100,
+        backgroundColor: 'white',
+        margin:20,
+    }
 });

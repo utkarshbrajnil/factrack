@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     
   },  
   image1: {
-    
+    flex:1,
     alignSelf: 'center',
     
   },
