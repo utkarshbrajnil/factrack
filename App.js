@@ -28,11 +28,11 @@ function MyStack() {
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <MyStack />
-    // </NavigationContainer>
+    <NavigationContainer>
+      <MyStack />
+    </NavigationContainer>
 
-    <OptionsPage />
+    // <OptionsPage />
     
   );
 }
