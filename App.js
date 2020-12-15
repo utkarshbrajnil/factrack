@@ -7,6 +7,7 @@ import LoginScreen from './Screens/LoginScreen'
 import About from './Screens/About';
 import GetStarted from './Screens/GetStarted';
 import OptionsPage from './Screens/OptionsPage';
+import OnBoarding from './Screens/OnBoarding'
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -15,7 +16,7 @@ const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator headerMode="none" mode="modal">
-      <Stack.Screen name="GetStarted" component={GetStarted} />
+      <Stack.Screen name="OnBoarding" component={OnBoarding} />
       <Stack.Screen name="About" component={About} />
       <Stack.Screen name="Options" component={OptionsPage} />
       <Stack.Screen name="Show" component={ShowLocation} />
@@ -27,23 +28,9 @@ function MyStack() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MyStack />
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <MyStack />
+    // </NavigationContainer>
+    <LoginScreen />
   );
 }
-
-// export default function App() {
-//   return (
-//     <GetStarted/>
-//   );
-// }
-
-/*const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});*/

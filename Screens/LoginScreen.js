@@ -1,11 +1,19 @@
 import  React, { useState } from 'react';
-import { Image, ImageBackground, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
+import { SearchBar, Icon } from 'react-native-elements';
 import firebaseConfig from '../firebaseConfig'
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
 import firebase from 'firebase';
+import { color } from 'react-native-reanimated';
 
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+ }else {
+    firebase.app(); // if already initialized, use that one
+ }
 
+ const image = { uri: "https://i.pinimg.com/originals/b9/16/73/b91673c3e31d8b688d4b5e28769eba67.png" };
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState("");
@@ -41,12 +49,16 @@ export default function LoginScreen({navigation}) {
   return (
       <>
       
-      <Text style = {styles.title}>TeacherTracker</Text>
+      
         <Container style={styles.container}>
+        <ImageBackground source={image} style={styles.image} >
         
         <Form>
-            <Item floatingLabel>
-                <Label>Email</Label>
+            <Item 
+                rounded
+            >
+                {/* <Label style={{marginLeft: 10}}>Email</Label> */}
+                <Icon name="email" style={{marginLeft: 10, opacity: 0.5}} color='white'/>
                 <Input 
                     autoCorrect = {false}
                     autoCapitalize = "none"
@@ -55,10 +67,10 @@ export default function LoginScreen({navigation}) {
             </Item>
 
             <Item 
-                floatingLabel 
-                style={{marginTop: 20}}
+                rounded 
+                style={{marginTop: 15}}
             >
-                <Label>Password</Label>
+                <Icon name="lock" style={{marginLeft: 10, opacity: 0.5}} color='white' />
                 <Input 
                     secureTextEntry
                     autoCorrect = {false}
@@ -70,13 +82,13 @@ export default function LoginScreen({navigation}) {
             <Button 
                 full
                 success
-                style={{marginTop: 40}}
+                style={{marginTop: 40, borderRadius: 20}}
                 onPress = {() => loginUser(email, password)}
             >
                 <Text style={{color: 'white'}}>Log In</Text>
             </Button>
         </Form>
-          
+          </ImageBackground>
     </Container>
     </>
     
@@ -89,16 +101,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 10,
+    
     justifyContent: 'center',
   },
 
   title: { 
       fontWeight: 'bold',
-      fontSize: 40,
+      fontSize: 60,
       alignSelf: 'center',
       marginTop: '20%',
       color: 'green',
-      fontFamily: 'sans-serif-condensed'  
+      fontFamily: 'sans-serif-condensed',
+      
+        
   },
+
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
+  },  
 });
