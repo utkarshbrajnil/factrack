@@ -59,7 +59,7 @@ export default function LoginScreen({navigation}) {
         style={styles.image1}
       />
         <Text style={styles.title}>TrackIT.</Text>
-        <Form style={{padding: 10}}>
+        <Form style={{marginVertical:20,paddingHorizontal:10}}>
             <Item 
                 rounded
                 style={{backgroundColor: 'rgba(184, 196, 212,0.4)'}}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 60,
       alignSelf: 'center',
-      marginTop: '20%',
+      marginTop: 15,
       color: '#FFB81D',
       fontFamily: 'sans-serif-condensed',
             
@@ -142,8 +142,9 @@ const styles = StyleSheet.create({
     
   },  
   image1: {
-    flex:1,
+    flex:2,
     alignSelf: 'center',
+    margin: 60,
     
   },
 });

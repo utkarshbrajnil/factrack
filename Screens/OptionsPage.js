@@ -64,7 +64,7 @@ const image =  require('../assets/optionBG.png') ;
                     ()=>
                     {
                         if(person=='teacher')
-                        navigation.navigate("GetLocation")
+                        navigation.navigate("Login")
                         else if(person=='student')
                         navigation.navigate("Show")
                         else
