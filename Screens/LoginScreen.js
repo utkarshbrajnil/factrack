@@ -1,5 +1,5 @@
 import  React, { useState } from 'react';
-import { View, StyleSheet, Text, ImageBackground } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground, Image } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import firebaseConfig from '../firebaseConfig'
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
@@ -52,10 +52,17 @@ export default function LoginScreen({navigation}) {
       
         <Container style={styles.container}>
         <ImageBackground source={image} style={styles.image} >
+        <Image
+        source={require("../assets/Avatar.png")}
+        resizeMode="contain"
+        
+        style={styles.image1}
+      />
         <Text style={styles.title}>TrackIT.</Text>
         <Form style={{padding: 10}}>
             <Item 
                 rounded
+                style={{backgroundColor: 'rgba(184, 196, 212,0.4)'}}
             >
                 
                 <Icon name="email" style={{marginLeft: 10, opacity: 0.6}} color='white'/>
@@ -71,7 +78,7 @@ export default function LoginScreen({navigation}) {
 
             <Item 
                 rounded 
-                style={{marginTop: 10}}
+                style={{marginTop: 10, backgroundColor: 'rgba(184, 196, 212,0.4)'}}
             >
                 <Icon name="lock" style={{marginLeft: 10, opacity: 0.6}} color='white' />
                 <Input 
@@ -88,17 +95,18 @@ export default function LoginScreen({navigation}) {
             <Button 
                 full
                 success
-                style={{marginTop: 40, borderRadius: 20}}
+                style={{marginTop: 40, borderRadius: 20, backgroundColor: '#0F2C52'}}
                 onPress = {() => loginUser(email, password)}
             >
-                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', opacity: 0.7}}>LOG IN</Text>
+                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#cccccc'}}>Log In</Text>
             </Button>
             <Button 
                 full
-                style={{marginTop: 40, borderRadius: 20, marginTop: 5, color: 'blue'}}
+                transparent
+                style={{marginTop: 40, borderRadius: 20, marginTop: 5}}
                 onPress = {() => signUpUser(email, password)}
             >
-                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', opacity: 0.7}}>SIGN UP</Text>
+                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#0F2C52'}}>Sign Up</Text>
             </Button>
         </Form>
           </ImageBackground>
@@ -124,13 +132,18 @@ const styles = StyleSheet.create({
       marginTop: '20%',
       color: '#FFB81D',
       fontFamily: 'sans-serif-condensed',
-      
-        
+            
   },
 
   image: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center"
+    justifyContent: "center",
+    
   },  
+  image1: {
+    
+    alignSelf: 'center',
+    
+  },
 });
