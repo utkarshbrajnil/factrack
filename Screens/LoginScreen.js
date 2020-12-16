@@ -16,7 +16,7 @@ if (!firebase.apps.length) {
  const image = { uri: "https://i.pinimg.com/originals/b9/16/73/b91673c3e31d8b688d4b5e28769eba67.png" };
 
 export default function LoginScreen({navigation}) {
-    const [ID, setID] = useState(0);
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
 
     // const signUpUser = (email, password) => {
@@ -34,19 +34,19 @@ export default function LoginScreen({navigation}) {
     //     }
     // }
 
-    const loginUser = async (ID, password, navigation) => {
+    const loginUser = async (name, password, navigation) => {
         try {
             const data = await firebase.database().ref(`users`)
             data.on("value", user => {
-                const status = (user.hasChild(ID.toString())) 
-                const pass_db = user.child(ID.toString()).child("password");
+                const status = (user.hasChild(name.toString())) 
+                const pass_db = user.child(name.toString()).child("password");
                 
                 if(status) {
                     if(password.localeCompare(pass_db.val()) == 0) {
                         console.log("Access granted")
-                        console.log(typeof ID)
+                        
                         navigation.navigate("GetLocation",{
-                            id : ID
+                            name : name
                         })
                     } else {
                         alert("Oops!! comeback with a correct password")
@@ -86,9 +86,9 @@ export default function LoginScreen({navigation}) {
                     autoCorrect = {false}
                     autoCapitalize = "none"
                     placeholderTextColor="white"
-                    placeholder="Enter faculty ID"
+                    placeholder="Enter name"
                     style={{color: 'white'}}
-                    onChangeText = {id => setID(id)}
+                    onChangeText = {name => setName(name)}
                 />
             </Item>
 
@@ -112,10 +112,11 @@ export default function LoginScreen({navigation}) {
                 full
                 success
                 style={{marginTop: 40, borderRadius: 20, backgroundColor: '#0F2C52'}}
-                onPress = {() => loginUser(ID, password, navigation)}
+                onPress = {() => loginUser(name, password, navigation)}
             >
                 <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#cccccc'}}>Log In</Text>
             </Button>
+            
             <Button 
                 full
                 transparent
@@ -124,8 +125,11 @@ export default function LoginScreen({navigation}) {
                     navigation.navigate("Signup")
                 }}
             >
-                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#0F2C52'}}>Sign Up</Text>
+                
+                <Text style={{color: 'white', fontSize: 22, color: '#0F2C52'}}>New user?   <Text style={{color: 'black', fontWeight: 'bold'}}>Sign Up</Text></Text>
             </Button>
+            
+            
         </Form>
           </ImageBackground>
     </Container>

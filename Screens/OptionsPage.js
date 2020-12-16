@@ -5,14 +5,13 @@ import {Button} from 'native-base';
 
 
 const image =  require('../assets/optionBG.png') ;
-// const teacher = require(`../assets/teacher.png`)
-// const student = require(`../assets/student.png`)
 
 
  export default function OptionsPage({navigation}){
 
-    const [choice,setChoice] = useState(require('../assets/teacher.png'));
-    const [person,setPerson] = useState('');
+    const [choice,setChoice] = useState(require('../assets/unknown.png'));
+    const [person,setPerson] = useState('Choose an option');
+
     console.log(typeof(choice))
     return(
         <View style={styles.container}>
@@ -20,19 +19,19 @@ const image =  require('../assets/optionBG.png') ;
             <View style={styles.avatar}>
                  <Image style={{height:250,width:250, flex:1, }} 
                 source={choice} /> 
-
+                
             </View>
-            {/* <View style={{flex:1}}></View> */}
+            <Text style={styles.optionText}>
+                {person === 'Choose an option' ? person : `I am a ${person}`}
+            </Text>
+            
             <View style={styles.parentview}>
                 <TouchableOpacity 
                 onPress={()=>{
                     setChoice(require('../assets/teacher.png'))
-                    setPerson("teacher")
+                    setPerson("Teacher")
                 }}>
                     <View style={styles.optionview}>
-                    {/* <Text>
-                        Teacher
-                    </Text> */}
                     <Image style={{height:250,width:250, flex:1, }} 
                 source={require('../assets/teacher.png')} />
                     </View>
@@ -40,14 +39,11 @@ const image =  require('../assets/optionBG.png') ;
                 
                 <TouchableOpacity onPress={()=>{
                     setChoice(require('../assets/student.png'))
-                    setPerson("student")
+                    setPerson("Student")
                     }}>
                     <View style={styles.optionview}>
-                    {/* <Text>
-                        Student
-                    </Text> */}
                     <Image style={{height:250,width:250, flex:1, }} 
-                source={require('../assets/student.png')} />
+                            source={require('../assets/student.png')} />
                     </View>
                 </TouchableOpacity>
             </View>
@@ -63,9 +59,9 @@ const image =  require('../assets/optionBG.png') ;
                 onPress = {
                     ()=>
                     {
-                        if(person=='teacher')
+                        if(person=='Teacher')
                         navigation.navigate("Login")
-                        else if(person=='student')
+                        else if(person=='Student')
                         navigation.navigate("Show")
                         else
                         alert("Please select a choice ")
@@ -73,7 +69,7 @@ const image =  require('../assets/optionBG.png') ;
                     
                 }
             >
-                <Text style={{color: '#0F2C52', fontSize: 22, fontWeight: '200',}}>Next</Text>
+                <Text style={{color: '#0F2C52', fontSize: 22, fontWeight: 'bold',}}>Next</Text>
             </Button>
             
       </ImageBackground>
@@ -90,7 +86,8 @@ const styles = StyleSheet.create({
         
       },
     container: {
-        justifyContent: "center",  
+        justifyContent: "center", 
+        alignItems: 'center', 
         flex: 1,
         backgroundColor: "rgba(217,250,255,1)"
     },
@@ -120,7 +117,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     optionview:{
-        borderRadius:20,
+        borderRadius:50,
         width:150,
         alignItems:"center",
         justifyContent:"center",
@@ -128,5 +125,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         margin:20,
         overflow:"hidden",
+    },
+    optionText: {
+        fontSize: 30,
+        alignSelf: 'center',
+        marginTop: 150,
+        color: '#FFB81D',
+        fontWeight: 'bold'
     }
 });

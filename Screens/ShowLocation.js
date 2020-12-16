@@ -29,8 +29,8 @@ const ShowLocation = () => {
     
     async function fetchData(){
           
-        let lati = await firebase.database().ref("faculties").child(search).child("latitude");
-        let longi = await firebase.database().ref("faculties").child(search).child("longitude");
+        let lati = await firebase.database().ref("users").child(search).child("coords").child("latitude");
+        let longi = await firebase.database().ref("users").child(search).child("coords").child("longitude");
            lati.on("value", lat => {
            setLat(lat.val());
            });

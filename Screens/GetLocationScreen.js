@@ -51,29 +51,28 @@ export default function GetLocationScreen({route,navigation}) {
         var long=0
 
         let loc = await Location.getCurrentPositionAsync({})
+        if(loc.coords.latitude !== null) {
           setLocation(loc);
-        //console.log(location);
-        lat = location["coords"]["latitude"]
-        long = location["coords"]["longitude"]
-        console.log(lat,long)
+          //console.log(location);
+          lat = location["coords"]["latitude"]
+          long = location["coords"]["longitude"]
+          console.log(lat,long)
+        } else {
+          console.log(lat,long)
+        }
+          
         
-        if(lat==0 && long==0)
-        console.log("no")
-        else{
-          const user = await firebase.database().ref(`users/${id}/coords`).set(
+        
+        
+        await firebase.database().ref(`users/${name}/coords`).set(
             {
                 latitude:lat,
                 longitude: long,
             }
           )
-
-        }
-  
-        
-        
       }
       
-      const { id } = route.params;
+      const { name } = route.params;
  
 
   return (

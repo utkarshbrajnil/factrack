@@ -23,7 +23,7 @@ export default function SignupScreen({navigation}) {
 
     const createProfile = async(email, password, name, facID) => {
         try {
-            const user = await firebase.database().ref(`users/${facID}`).set(
+            const user = await firebase.database().ref(`users/${name.split()[0]}`).set(
                 {
                     name: name,
                     email: email,
