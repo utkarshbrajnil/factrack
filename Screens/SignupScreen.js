@@ -1,6 +1,6 @@
 import  React, { useState } from 'react';
 import { View, StyleSheet, Text, ImageBackground, Image } from 'react-native';
-import { SearchBar, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import firebaseConfig from '../firebaseConfig'
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base'
 import firebase from 'firebase';
@@ -15,45 +15,22 @@ if (!firebase.apps.length) {
 
  const image = { uri: "https://i.pinimg.com/originals/b9/16/73/b91673c3e31d8b688d4b5e28769eba67.png" };
 
-export default function LoginScreen({navigation}) {
-    const [ID, setID] = useState();
+export default function SignupScreen({navigation}) {
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+    const [facID, setFacID] = useState();
 
-    // const signUpUser = (email, password) => {
-    //     try {
-    //         if(password.length < 6) {
-    //             alert("Please enter atleast 6 characters")
-    //             return;
-    //         }
-
-    //         firebase.auth().createUserWithEmailAndPassword(email, password)
-
-            
-    //     } catch (error) {
-    //         console.log(error.toString())
-    //     }
-    // }
-
-    const loginUser = async (ID, password, navigation) => {
+    const createProfile = async(email, password, name, facID) => {
         try {
-            const data = await firebase.database().ref(`users`)
-            data.on("value", user => {
-                const status = (user.hasChild(ID.toString())) 
-                const pass_db = user.child(ID.toString()).child("password");
-                
-                if(status) {
-                    if(password.localeCompare(pass_db.val()) == 0) {
-                        console.log("Access granted")
-                        navigation.navigate("GetLocation")
-                    } else {
-                        alert("Oops!! comeback with a correct password")
-                    }
-                    
-                } else {
-                    alert("Invalid faculty ID");
+            const user = await firebase.database().ref(`users/${facID}`).set(
+                {
+                    name: name,
+                    email: email,
+                    password: password,
+                    facID: facID
                 }
-                
-            })
+            )
         } catch (error) {
             console.log(error.toString())
         }
@@ -65,27 +42,27 @@ export default function LoginScreen({navigation}) {
       
         <Container style={styles.container}>
         <ImageBackground source={image} style={styles.image} >
-        <Image
+        {/* <Image
         source={require("../assets/Avatar.png")}
         resizeMode="contain"
         
         style={styles.image1}
-      />
-        <Text style={styles.title}>TrackIT.</Text>
+      /> */}
+        <Text style={styles.title}>SignUp at TrackIT.</Text>
         <Form style={{marginVertical:20,paddingHorizontal:10}}>
             <Item 
                 rounded
                 style={{backgroundColor: 'rgba(184, 196, 212,0.4)'}}
             >
                 
-                <Icon name="fingerprint" style={{marginLeft: 10, opacity: 0.6}} color='white'/>
+                <Icon name="email" style={{marginLeft: 10}} color='white'/>
                 <Input 
                     autoCorrect = {false}
                     autoCapitalize = "none"
                     placeholderTextColor="white"
-                    placeholder="Enter faculty ID"
+                    placeholder="Enter email"
                     style={{color: 'white'}}
-                    onChangeText = {id => setID(id)}
+                    onChangeText = {email => setEmail(email)}
                 />
             </Item>
 
@@ -93,11 +70,11 @@ export default function LoginScreen({navigation}) {
                 rounded 
                 style={{marginTop: 10, backgroundColor: 'rgba(184, 196, 212,0.4)'}}
             >
-                <Icon name="lock" style={{marginLeft: 10, opacity: 0.6}} color='white' />
+                <Icon name="lock" style={{marginLeft: 10}} color='white' />
                 <Input 
                     secureTextEntry
                     placeholderTextColor="white"
-                    placeholder="Enter password"
+                    placeholder="Choose a password"
                     style={{color: 'white'}}
                     autoCorrect = {false}
                     autoCapitalize = "none"
@@ -105,24 +82,52 @@ export default function LoginScreen({navigation}) {
                 />
             </Item>
 
+            <Item 
+                rounded
+                style={{backgroundColor: 'rgba(184, 196, 212,0.4)', marginTop: 10}}
+            >
+                
+                <Icon name="person" style={{marginLeft: 10}} color='white'/>
+                <Input 
+                    autoCorrect = {false}
+                    autoCapitalize = "none"
+                    placeholderTextColor="white"
+                    placeholder="Enter name"
+                    style={{color: 'white'}}
+                    onChangeText = {name => setName(name)}
+                />
+            </Item>
+
+            <Item 
+                rounded
+                style={{backgroundColor: 'rgba(184, 196, 212,0.4)', marginTop: 10}}
+            >
+                
+                <Icon name="fingerprint" style={{marginLeft: 10}} color='white' />
+                <Input 
+                    autoCorrect = {false}
+                    autoCapitalize = "none"
+                    placeholderTextColor="white"
+                    placeholder="Enter unique faculty ID"
+                    style={{color: 'white'}}
+                    onChangeText = {id => setFacID(id)}
+                />
+            </Item>
+
+            
             <Button 
                 full
                 success
                 style={{marginTop: 40, borderRadius: 20, backgroundColor: '#0F2C52'}}
-                onPress = {() => loginUser(ID, password, navigation)}
-            >
-                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#cccccc'}}>Log In</Text>
-            </Button>
-            <Button 
-                full
-                transparent
-                style={{marginTop: 40, borderRadius: 20, marginTop: 5}}
                 onPress = {() => {
-                    navigation.navigate("Signup")
+                    createProfile(email, password, name, facID);
+                    alert("Profile has been created!")
+                    navigation.navigate("Login")
                 }}
             >
-                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#0F2C52'}}>Sign Up</Text>
+                <Text style={{color: 'white', fontSize: 22, fontWeight: 'bold', color: '#cccccc'}}>Create profile</Text>
             </Button>
+            
         </Form>
           </ImageBackground>
     </Container>
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
       marginTop: 15,
       color: '#FFB81D',
       fontFamily: 'sans-serif-condensed',
-            
+      marginLeft: 10,
   },
 
   image: {

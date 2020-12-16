@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
-import { StyleSheet, Text, View, Image,ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import {Button} from 'native-base';
-import RadioButtonRN from 'radio-buttons-react-native';
+
 
 
 const image =  require('../assets/optionBG.png') ;
