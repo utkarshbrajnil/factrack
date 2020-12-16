@@ -16,7 +16,7 @@ if (!firebase.apps.length) {
  const image = { uri: "https://i.pinimg.com/originals/b9/16/73/b91673c3e31d8b688d4b5e28769eba67.png" };
 
 export default function LoginScreen({navigation}) {
-    const [ID, setID] = useState();
+    const [ID, setID] = useState(0);
     const [password, setPassword] = useState("");
 
     // const signUpUser = (email, password) => {
@@ -44,7 +44,10 @@ export default function LoginScreen({navigation}) {
                 if(status) {
                     if(password.localeCompare(pass_db.val()) == 0) {
                         console.log("Access granted")
-                        navigation.navigate("GetLocation")
+                        console.log(typeof ID)
+                        navigation.navigate("GetLocation",{
+                            id : ID
+                        })
                     } else {
                         alert("Oops!! comeback with a correct password")
                     }
