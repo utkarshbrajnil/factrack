@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Teacher_Tracker",
-    "slug": "Teacher_Tracker",
+    "name": "FacTrack",
+    "slug": "FacTrack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,14 +16,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.aryan_thakre19.FacTrack"
     },
     "web": {
       "favicon": "./assets/favicon.png"
