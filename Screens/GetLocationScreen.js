@@ -37,7 +37,7 @@ export default function GetLocationScreen({route,navigation}) {
                 )
              
     })();
-        }, [])
+        }, [location])
 
   return (
     <View style={styles.container}>

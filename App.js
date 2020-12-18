@@ -11,6 +11,7 @@ import OnBoarding from './Screens/OnBoarding'
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SignupScreen from './Screens/SignupScreen'
+import NewLocation from './Screens/NewLocation';
 
 const Stack = createStackNavigator();
 
@@ -31,8 +32,9 @@ function MyStack() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MyStack />
-    </NavigationContainer>   
+    // <NavigationContainer>
+    //   <MyStack />
+    // </NavigationContainer> 
+    <NewLocation />  
   );
 }
