@@ -1,74 +1,61 @@
 import React, { useState, useEffect } from "react";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import { StyleSheet, StatusBar } from "react-native";
-import * as Location from "expo-location";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import { SearchBar } from "react-native-elements";
+import MapView from "react-native-maps";
 import * as firebase from "firebase";
+import { Marker } from "react-native-maps";
+import firebaseConfig from "../firebaseConfig";
+
+import { LogBox } from "react-native";
+import _ from "lodash";
+
+LogBox.ignoreAllLogs(["Setting a timer"]);
+const _console = _.clone(console);
+console.warn = (message) => {
+  if (message.indexOf("Setting a timer") <= -1) {
+    _console.warn(message);
+  }
+};
 
 const height = StatusBar.currentHeight;
 
 const ShowLocation = () => {
-  const LATITUDE_DELTA = 0.009;
-  const LONGITUDE_DELTA = 0.009;
-  const LATITUDE = 18.7934829;
-  const LONGITUDE = 98.9867401;
-
-  const [latitude, setLatitude] = useState(LATITUDE);
-  const [longitude, setLongitude] = useState(LONGITUDE);
+  const LAD = 0.1;
+  const LOD = 0.5;
   const [search, updateSearch] = useState("");
-  const [error, setError] = useState("");
-
-  const region = {
-    latitude: latitude,
-    longitude: longitude,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  };
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Permission to access location was denied");
-        return;
-      }
-
-      navigator.geolocation.watchPosition(
-        (position) => {
-          console.log(position);
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-          setError(null);
-        },
-        (error) => setError(error.message),
-        {
-          enableHighAccuracy: true,
-          timeout: 200000,
-          maximumAge: 1000,
-          distanceFilter: 10,
-        }
-      );
-    })();
-  }, []);
+  const [lat, setLat] = useState(22);
+  const [long, setLong] = useState(22);
 
   async function fetchData() {
+    var key = '';
+    const data = await firebase.database().ref("users")
+    data.orderByChild('name').equalTo(search).on("value", function(snapshot) {
+      console.log(snapshot.val());
+      snapshot.forEach(function(value) {
+          console.log(value.key);
+          key = value.key;
+          console.log(typeof key)
+
+      });
+  });
+  console.log(key)
     let lati = await firebase
       .database()
       .ref("users")
-      .child(search)
+      .child(key)
       .child("coords")
       .child("latitude");
     let longi = await firebase
       .database()
       .ref("users")
-      .child(search)
+      .child(key)
       .child("coords")
       .child("longitude");
     lati.on("value", (lat) => {
-      setLatitude(lat.val());
+      setLat(lat.val());
     });
     longi.on("value", (long) => {
-      setLongitude(long.val());
+      setLong(long.val());
     });
   }
 
@@ -76,7 +63,6 @@ const ShowLocation = () => {
     <>
       <SearchBar
         returnKeyType="search"
-        autoCorrect={false}
         placeholder="Search for a teacher..."
         onChangeText={(term) => updateSearch(term)}
         onSubmitEditing={() => fetchData()}
@@ -86,13 +72,16 @@ const ShowLocation = () => {
       />
 
       <MapView
-        showsUserLocation
-        provider={PROVIDER_GOOGLE}
         style={styles.container}
-        region={region}
+        region={{
+          latitude: lat,
+          longitude: long,
+          latitudeDelta: LAD,
+          longitudeDelta: LOD,
+        }}
       >
         <Marker
-          coordinate={region}
+          coordinate={{ latitude: lat, longitude: long }}
           title={search}
           description="Currently at this location"
         />
@@ -107,9 +96,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+
   searchbar: {
-    marginTop: height,
     justifyContent: "center",
+    //marginTop: height,
   },
 
   searchInput: {

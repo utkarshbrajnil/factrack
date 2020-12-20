@@ -32,13 +32,23 @@ export default function SignupScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [facID, setFacID] = useState();
 
-  const createProfile = (email, password) => {
+  const createProfile = (name, facID, email, password, navigation) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(
         () => {
           alert("Account created successfully");
+          firebase
+            .database()
+            .ref(`users/${firebase.auth().currentUser.uid}`)
+            .set({
+              name: name,
+              facID: facID,
+              email: email,
+              password: password,
+            });
+          navigation.navigate("Login");
         },
         (error) => {
           alert(error.message);
@@ -135,7 +145,7 @@ export default function SignupScreen({ navigation }) {
                 backgroundColor: "#0F2C52",
               }}
               onPress={() => {
-                createProfile(email, password);
+                createProfile(name, facID, email, password, navigation);
                 // alert("Profile has been created!");
                 // navigation.navigate("Login");
               }}

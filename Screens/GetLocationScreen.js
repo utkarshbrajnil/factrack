@@ -16,7 +16,7 @@ export default function GetLocationScreen({ navigation }) {
       .signOut()
       .then(function () {
         alert("Successfully logged out");
-        navigation.goBack();
+        navigation.navigate("Login");
       })
       .catch(function (error) {
         console.log(error.message);

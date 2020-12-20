@@ -20,6 +20,7 @@ export default function LoginScreen({ navigation }) {
       .then(
         () => {
           alert("Login Successful");
+          navigation.navigate("GetLocation")
         },
         (error) => {
           alert(error.message);

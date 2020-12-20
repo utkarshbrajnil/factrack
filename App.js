@@ -5,6 +5,7 @@ import StackNavigator from "./navigation/StackNavigator";
 import * as firebase from "firebase";
 import firebaseConfig from "./firebaseConfig";
 import LoginScreen from "./Screens/LoginScreen";
+import OnBoarding from "./Screens/OnBoarding";
 
 export default function App() {
   const [isAuthReady, setIsAuthReady] = useState(false);
@@ -31,7 +32,7 @@ export default function App() {
   } else {
     return (
       <>
-      {isAuthenticated ? <GetLocation /> : <LoginScreen />}
+      {isAuthenticated ? <GetLocation /> : <StackNavigator />}
       </>
     )
   }
