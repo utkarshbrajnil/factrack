@@ -1,26 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, ImageBackground, Image } from "react-native";
-import { SearchBar, Icon } from "react-native-elements";
-import firebaseConfig from "../firebaseConfig";
-import {
-  Container,
-  Content,
-  Header,
-  Form,
-  Input,
-  Item,
-  Button,
-  Label,
-} from "native-base";
+import { Icon } from "react-native-elements";
+import { Container, Form, Input, Item, Button } from "native-base";
 import firebase from "firebase";
-import { color } from "react-native-reanimated";
-
-// firebase.initializeApp(firebaseConfig);
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // if already initialized, use that one
-}
 
 const image = {
   uri:
@@ -28,47 +10,21 @@ const image = {
 };
 
 export default function LoginScreen({ navigation }) {
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const signUpUser = (email, password) => {
-  //     try {
-  //         if(password.length < 6) {
-  //             alert("Please enter atleast 6 characters")
-  //             return;
-  //         }
-
-  //         firebase.auth().createUserWithEmailAndPassword(email, password)
-
-  //     } catch (error) {
-  //         console.log(error.toString())
-  //     }
-  // }
-
-  const loginUser = async (name, password, navigation) => {
-    try {
-      const data = await firebase.database().ref(`users`);
-      data.on("value", (user) => {
-        const status = user.hasChild(name.toString());
-        const pass_db = user.child(name.toString()).child("password");
-
-        if (status) {
-          if (password.localeCompare(pass_db.val()) == 0) {
-            console.log("Access granted");
-
-            navigation.navigate("GetLocation", {
-              name: name,
-            });
-          } else {
-            alert("Oops!! comeback with a correct password");
-          }
-        } else {
-          alert("Invalid faculty ID");
+  loginUser = (navigation) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(
+        () => {
+          alert("Login Successful");
+        },
+        (error) => {
+          alert(error.message);
         }
-      });
-    } catch (error) {
-      console.log(error.toString());
-    }
+      );
   };
 
   return (
@@ -87,7 +43,7 @@ export default function LoginScreen({ navigation }) {
               style={{ backgroundColor: "rgba(184, 196, 212,0.4)" }}
             >
               <Icon
-                name="fingerprint"
+                name="email"
                 style={{ marginLeft: 10, opacity: 0.6 }}
                 color="white"
               />
@@ -95,9 +51,9 @@ export default function LoginScreen({ navigation }) {
                 autoCorrect={false}
                 autoCapitalize="none"
                 placeholderTextColor="white"
-                placeholder="Enter name"
+                placeholder="Enter email"
                 style={{ color: "white" }}
-                onChangeText={(name) => setName(name)}
+                onChangeText={(email) => setEmail(email)}
               />
             </Item>
 
@@ -132,7 +88,7 @@ export default function LoginScreen({ navigation }) {
                 borderRadius: 20,
                 backgroundColor: "#0F2C52",
               }}
-              onPress={() => loginUser(name, password, navigation)}
+              onPress={() => loginUser(navigation)}
             >
               <Text
                 style={{

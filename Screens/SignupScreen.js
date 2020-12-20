@@ -14,7 +14,6 @@ import {
 } from "native-base";
 import firebase from "firebase";
 
-
 // firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -33,32 +32,24 @@ export default function SignupScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [facID, setFacID] = useState();
 
-  const createProfile = async (email, password, name, facID) => {
-    try {
-      const user = await firebase
-        .database()
-        .ref(`users/${name.split()[0]}`)
-        .set({
-          name: name,
-          email: email,
-          password: password,
-          facID: facID,
-        });
-    } catch (error) {
-      console.log(error.toString());
-    }
+  const createProfile = (email, password) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(
+        () => {
+          alert("Account created successfully");
+        },
+        (error) => {
+          alert(error.message);
+        }
+      );
   };
 
   return (
     <>
       <Container style={styles.container}>
         <ImageBackground source={image} style={styles.image}>
-          {/* <Image
-        source={require("../assets/Avatar.png")}
-        resizeMode="contain"
-        
-        style={styles.image1}
-      /> */}
           <Text style={styles.title}>SignUp at TrackIT.</Text>
           <Form style={{ marginVertical: 20, paddingHorizontal: 10 }}>
             <Item
@@ -144,9 +135,9 @@ export default function SignupScreen({ navigation }) {
                 backgroundColor: "#0F2C52",
               }}
               onPress={() => {
-                createProfile(email, password, name, facID);
-                alert("Profile has been created!");
-                navigation.navigate("Login");
+                createProfile(email, password);
+                // alert("Profile has been created!");
+                // navigation.navigate("Login");
               }}
             >
               <Text
