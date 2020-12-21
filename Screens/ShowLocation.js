@@ -4,18 +4,6 @@ import { SearchBar } from "react-native-elements";
 import MapView from "react-native-maps";
 import * as firebase from "firebase";
 import { Marker } from "react-native-maps";
-import firebaseConfig from "../firebaseConfig";
-
-import { LogBox } from "react-native";
-import _ from "lodash";
-
-LogBox.ignoreAllLogs(["Setting a timer"]);
-const _console = _.clone(console);
-console.warn = (message) => {
-  if (message.indexOf("Setting a timer") <= -1) {
-    _console.warn(message);
-  }
-};
 
 const height = StatusBar.currentHeight;
 
@@ -27,36 +15,40 @@ const ShowLocation = () => {
   const [long, setLong] = useState(22);
 
   async function fetchData() {
-    var key = '';
-    const data = await firebase.database().ref("users")
-    data.orderByChild('name').equalTo(search).on("value", function(snapshot) {
-      console.log(snapshot.val());
-      snapshot.forEach(function(value) {
-          console.log(value.key);
-          key = value.key;
-          console.log(typeof key)
+    let key = "";
+    const data = await firebase.database().ref("users");
+    if (data !== null) {
+      data
+        .orderByChild("name")
+        .equalTo(search)
+        .on("value", function (snapshot) {
+          console.log(snapshot.val());
+          snapshot.forEach(function (value) {
+            console.log(value.key);
+            key = value.key;
+            console.log(typeof key);
+          });
+        });
 
+      let lati = await firebase
+        .database()
+        .ref("users")
+        .child(key)
+        .child("coords")
+        .child("latitude");
+      let longi = await firebase
+        .database()
+        .ref("users")
+        .child(key)
+        .child("coords")
+        .child("longitude");
+      lati.on("value", (lat) => {
+        setLat(lat.val());
       });
-  });
-  console.log(key)
-    let lati = await firebase
-      .database()
-      .ref("users")
-      .child(key)
-      .child("coords")
-      .child("latitude");
-    let longi = await firebase
-      .database()
-      .ref("users")
-      .child(key)
-      .child("coords")
-      .child("longitude");
-    lati.on("value", (lat) => {
-      setLat(lat.val());
-    });
-    longi.on("value", (long) => {
-      setLong(long.val());
-    });
+      longi.on("value", (long) => {
+        setLong(long.val());
+      });
+    }
   }
 
   return (

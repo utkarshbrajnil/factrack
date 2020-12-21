@@ -25,7 +25,7 @@ export default function App() {
   if ( !isAuthReady ) {
     return (
       <>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color="red" />
       {console.log("loading...")}
       </>
     )

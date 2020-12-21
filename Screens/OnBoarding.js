@@ -54,7 +54,7 @@ const OnBoarding = ({ navigation }) => {
             borderRadius={5}
             textStyle={{ color: '#003c8f' }}
             onPress={() => {
-              navigation.navigate("Options")
+              navigation.replace("Options")
               StatusBar.setBarStyle('default');
             }}
           />
