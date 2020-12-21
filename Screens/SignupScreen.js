@@ -15,8 +15,7 @@ import {
   Label,
 } from "native-base";
 import firebase from "firebase";
-import LinearGradient from "react-native-linear-gradient";
-import { RadialGradient } from "react-native-svg";
+
 
 // firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
@@ -52,6 +51,7 @@ export default function SignupScreen({ navigation }) {
               email: email,
               password: password,
             });
+            firebase.auth().signOut();
           navigation.navigate("Login");
         },
         (error) => {
@@ -152,7 +152,7 @@ export default function SignupScreen({ navigation }) {
                 onPress={() => {
                   createProfile(name, facID, email, password, navigation);
                   // alert("Profile has been created!");
-                  // navigation.navigate("Login");
+                  //  navigation.navigate("Login");
                 }}
               >
                 <Text

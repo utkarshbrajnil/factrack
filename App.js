@@ -33,8 +33,8 @@ export default function App() {
   } else {
     return (
       <>
-      {/* {isAuthenticated ? <GetLocation /> : <StackNavigator />} */}
-      <SignupScreen/>
+      {isAuthenticated ? <GetLocation /> : <StackNavigator />}
+      
       </>
     )
   }
