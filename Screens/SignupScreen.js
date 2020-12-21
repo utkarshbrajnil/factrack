@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text, ImageBackground, Image } from "react-native";
 import { Icon } from "react-native-elements";
 import firebaseConfig from "../firebaseConfig";
+import { BlurView } from 'expo-blur';
+// import styles from "./App.module.css"
 import {
   Container,
   Content,
@@ -13,6 +15,8 @@ import {
   Label,
 } from "native-base";
 import firebase from "firebase";
+import LinearGradient from "react-native-linear-gradient";
+import { RadialGradient } from "react-native-svg";
 
 // firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
@@ -61,107 +65,109 @@ export default function SignupScreen({ navigation }) {
       <Container style={styles.container}>
         <ImageBackground source={image} style={styles.image}>
           <Text style={styles.title}>SignUp at TrackIT.</Text>
-          <Form style={{ marginVertical: 20, paddingHorizontal: 10 }}>
-            <Item
-              rounded
-              style={{ backgroundColor: "rgba(184, 196, 212,0.4)" }}
-            >
-              <Icon name="email" style={{ marginLeft: 10 }} color="white" />
-              <Input
-                autoCorrect={false}
-                autoCapitalize="none"
-                placeholderTextColor="white"
-                placeholder="Enter email"
-                style={{ color: "white" }}
-                onChangeText={(email) => setEmail(email)}
-              />
-            </Item>
+          <BlurView tint='default' style={[ styles.nonBlurredContent, styles.glass1]}>
+            <Form style={styles.form}>
+              <Item
+                rounded
+                style={{ backgroundColor: "rgba(184, 196, 212,0.4)" }}
+              >
+                <Icon name="email" style={{ marginLeft: 10 }} color="white" />
+                <Input
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  placeholderTextColor="white"
+                  placeholder="Enter email"
+                  style={{ color: "white" }}
+                  onChangeText={(email) => setEmail(email)}
+                />
+              </Item>
 
-            <Item
-              rounded
-              style={{
-                marginTop: 10,
-                backgroundColor: "rgba(184, 196, 212,0.4)",
-              }}
-            >
-              <Icon name="lock" style={{ marginLeft: 10 }} color="white" />
-              <Input
-                secureTextEntry
-                placeholderTextColor="white"
-                placeholder="Choose a password"
-                style={{ color: "white" }}
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={(pass) => setPassword(pass)}
-              />
-            </Item>
-
-            <Item
-              rounded
-              style={{
-                backgroundColor: "rgba(184, 196, 212,0.4)",
-                marginTop: 10,
-              }}
-            >
-              <Icon name="person" style={{ marginLeft: 10 }} color="white" />
-              <Input
-                autoCorrect={false}
-                autoCapitalize="none"
-                placeholderTextColor="white"
-                placeholder="Enter name"
-                style={{ color: "white" }}
-                onChangeText={(name) => setName(name)}
-              />
-            </Item>
-
-            <Item
-              rounded
-              style={{
-                backgroundColor: "rgba(184, 196, 212,0.4)",
-                marginTop: 10,
-              }}
-            >
-              <Icon
-                name="fingerprint"
-                style={{ marginLeft: 10 }}
-                color="white"
-              />
-              <Input
-                autoCorrect={false}
-                autoCapitalize="none"
-                placeholderTextColor="white"
-                placeholder="Enter unique faculty ID"
-                style={{ color: "white" }}
-                onChangeText={(id) => setFacID(id)}
-              />
-            </Item>
-
-            <Button
-              full
-              success
-              style={{
-                marginTop: 40,
-                borderRadius: 20,
-                backgroundColor: "#0F2C52",
-              }}
-              onPress={() => {
-                createProfile(name, facID, email, password, navigation);
-                // alert("Profile has been created!");
-                // navigation.navigate("Login");
-              }}
-            >
-              <Text
+              <Item
+                rounded
                 style={{
-                  color: "white",
-                  fontSize: 22,
-                  fontWeight: "bold",
-                  color: "#cccccc",
+                  marginTop: 10,
+                  backgroundColor: "rgba(184, 196, 212,0.4)",
                 }}
               >
-                Create profile
-              </Text>
-            </Button>
-          </Form>
+                <Icon name="lock" style={{ marginLeft: 10 }} color="white" />
+                <Input
+                  secureTextEntry
+                  placeholderTextColor="white"
+                  placeholder="Choose a password"
+                  style={{ color: "white" }}
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onChangeText={(pass) => setPassword(pass)}
+                />
+              </Item>
+
+              <Item
+                rounded
+                style={{
+                  backgroundColor: "rgba(184, 196, 212,0.4)",
+                  marginTop: 10,
+                }}
+              >
+                <Icon name="person" style={{ marginLeft: 10 }} color="white" />
+                <Input
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  placeholderTextColor="white"
+                  placeholder="Enter name"
+                  style={{ color: "white" }}
+                  onChangeText={(name) => setName(name)}
+                />
+              </Item>
+
+              <Item
+                rounded
+                style={{
+                  backgroundColor: "rgba(184, 196, 212,0.4)",
+                  marginTop: 10,
+                }}
+              >
+                <Icon
+                  name="fingerprint"
+                  style={{ marginLeft: 10 }}
+                  color="white"
+                />
+                <Input
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  placeholderTextColor="white"
+                  placeholder="Enter unique faculty ID"
+                  style={{ color: "white" }}
+                  onChangeText={(id) => setFacID(id)}
+                />
+              </Item>
+
+              <Button
+                full
+                success
+                style={{
+                  marginTop: 40,
+                  borderRadius: 20,
+                  backgroundColor: "#0F2C52",
+                }}
+                onPress={() => {
+                  createProfile(name, facID, email, password, navigation);
+                  // alert("Profile has been created!");
+                  // navigation.navigate("Login");
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 22,
+                    fontWeight: "bold",
+                    color: "#cccccc",
+                  }}
+                >
+                  Create profile
+                </Text>
+              </Button>
+            </Form>
+          </BlurView>
         </ImageBackground>
       </Container>
     </>
@@ -173,6 +179,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     justifyContent: "center",
+  },
+
+  glass1: {
+    // backgroundColor: "rgba(184, 196, 212,0.4)",
+    margin: 10,
+    borderRadius: 20,
+
+  },
+
+  form: {
+    marginVertical: 20,
+    paddingHorizontal: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 1,
   },
 
   title: {
