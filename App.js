@@ -33,7 +33,8 @@ export default function App() {
   } else {
     return (
       <>
-      {isAuthenticated ? <GetLocation /> : <StackNavigator />}
+      {/* {isAuthenticated ? <GetLocation /> : <StackNavigator />} */}
+      <GetLocation/>
       
       </>
     )
