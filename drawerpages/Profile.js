@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Button, View, StyleSheet, Text } from "react-native";
+import { Button, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { DataTable } from "react-native-paper";
 import firebase from "firebase";
+import * as ImagePicker from 'expo-image-picker';
 import TitleBar from './TitleBar';
+import { Icon } from "react-native-elements";
 
 function Profile({ navigation }) {
   const [name, setName] = useState(" ");
   const [facID, setFacID] = useState(" ");
   const [email, setEmail] = useState(" ");
+  const [image, setImage] = useState('');
+
 
   useEffect(() => {
     var user = firebase.auth().currentUser;
@@ -28,6 +32,49 @@ function Profile({ navigation }) {
     //   cleanup;
     // };
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if(result.uri !== null) {
+      setImage(result.uri);
+      console.log(image);
+  
+      const resp = await fetch(image);
+      const blob = await resp.blob();
+      
+      let userId = firebase.auth().currentUser.uid;
+      var ref = firebase.storage().ref(`${userId}`).child("images/" + "test-image");
+      ref.put(blob);
+    } else {
+      alert("Couldn't upload image");
+    }
+  };
+
+  const retrieveImage = () => {
+    let userId = firebase.auth().currentUser.uid;
+
+    firebase.storage().ref(`${userId}/images/test-image`).getDownloadURL().then(uri => {
+      console.log(uri);
+    }).catch(e => alert("Error getting download uri", e.message))
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -66,6 +113,16 @@ function Profile({ navigation }) {
             label="1-2 of 6"
           /> */}
         </DataTable>
+        <Text style={{alignSelf: "center", margin: 20}}>Choose an image from gallery</Text>
+          <TouchableOpacity onPress={pickImage}>
+            <View style={styles.picker}>
+            <Icon
+                name="camera-alt"
+                color="black"
+              />
+            </View>
+          </TouchableOpacity>
+          <Button title="Download Image" onPress={retrieveImage}/>
       </View>
     </View>
   );
@@ -91,6 +148,16 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 15,
     backgroundColor: "white",
+  },
+
+  picker: {
+    height: 70,
+    width: 70,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 });
 
