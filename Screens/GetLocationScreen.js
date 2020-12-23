@@ -56,15 +56,14 @@ import firebase from "firebase";
   // }, []);
 
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.text}>Enable location sharing</Text>
-    //   <Button
-    //     title="Logout"
-    //     color="#841584"
-    //     onPress={() => logOut(navigation)}
-    //   />
-    // </View>
-    <DrawerNavigator/>
+    <View style={styles.container}>
+      <Text style={styles.text}>Enable location sharing</Text>
+      <Button
+        title="Logout"
+        color="#841584"
+        onPress={() => logOut(navigation)}
+      />
+    </View>
   );
 }
 

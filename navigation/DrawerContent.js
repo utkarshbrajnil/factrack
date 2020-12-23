@@ -12,15 +12,25 @@ import {
   Switch,
 } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import firebase from "firebase";
 
 // import{ AuthContext } from '../components/context';
 
 export default function DrawerContent(props) {
   const paperTheme = useTheme();
 
-  //const { signOut, toggleTheme } = React.useContext(AuthContext);
+  const logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        alert("Successfully logged out");
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -30,7 +40,8 @@ export default function DrawerContent(props) {
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
                 source={{
-                  uri: "https://instagram.fccu5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/104704884_640416233238001_8205067454928794298_n.jpg?_nc_ht=instagram.fccu5-1.fna.fbcdn.net&_nc_ohc=ZadolnuXNy8AX-B7A2Y&tp=1&oh=83fa9255cf9ce9f602f397636d8536b0&oe=600D2B4D",
+                  uri:
+                    "https://instagram.fccu5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/104704884_640416233238001_8205067454928794298_n.jpg?_nc_ht=instagram.fccu5-1.fna.fbcdn.net&_nc_ohc=ZadolnuXNy8AX-B7A2Y&tp=1&oh=83fa9255cf9ce9f602f397636d8536b0&oe=600D2B4D",
                 }}
                 size={50}
               />
@@ -46,7 +57,6 @@ export default function DrawerContent(props) {
                   aryan.thakre2018@vitstudent.ac.in
                 </Caption>
               </View>
-              
             </View>
           </View>
 
@@ -56,37 +66,31 @@ export default function DrawerContent(props) {
                 <Icon name="home-outline" color={color} size={size} />
               )}
               label="Home"
+              onPress={()=> props.navigation.navigate("Home")}
             />
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="account-outline" color={color} size={size} />
               )}
               label="Profile"
+              onPress={()=> props.navigation.navigate("Profile")}
             />
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon name="lock" color={color} size={size} />
               )}
               label="Change Password"
+              onPress={()=> props.navigation.navigate("ChangePassword")}
+            
             />
             <DrawerItem
               icon={({ color, size }) => (
-                <Icon name="arrow" color={color} size={size} />
+                <Icon name="arrow-right" color={color} size={size} />
               )}
               label="Status"
+              onPress={()=> props.navigation.navigate("Status")}
             />
-            
           </Drawer.Section>
-          {/* <Drawer.Section title="Preferences">
-                        <TouchableRipple >
-                            <View style={styles.preference}>
-                                <Text>Enable Location</Text>
-                                <View pointerEvents="none">
-                                    <Switch value={paperTheme.dark}/>
-                                </View>
-                            </View>
-                        </TouchableRipple>
-                    </Drawer.Section> */}
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
@@ -95,6 +99,9 @@ export default function DrawerContent(props) {
             <Icon name="exit-to-app" color={color} size={size} />
           )}
           label="Sign Out"
+          onPress={
+            ()=>logOut()
+          }
         />
       </Drawer.Section>
     </View>

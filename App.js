@@ -7,6 +7,7 @@ import firebaseConfig from "./firebaseConfig";
 import LoginScreen from "./Screens/LoginScreen";
 import OnBoarding from "./Screens/OnBoarding";
 import SignupScreen from "./Screens/SignupScreen";
+import DrawerNavigator from "./navigation/DrawerNavigator";
 
 export default function App() {
   const [isAuthReady, setIsAuthReady] = useState(false);
@@ -33,8 +34,8 @@ export default function App() {
   } else {
     return (
       <>
-      {/* {isAuthenticated ? <GetLocation /> : <StackNavigator />} */}
-      <GetLocation/>
+      {isAuthenticated ? <DrawerNavigator /> : <StackNavigator />}
+      {/* <DrawerNavigator/> */}
       
       </>
     )

@@ -1,19 +1,17 @@
 import React from "react";
-import { Button, View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import TitleBar from "./TitleBar";
 
-function HomeScreen({ navigation }) {
+function ChangePassword({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <TitleBar navigation={navigation} />
-      {/* <Button onPress={() => navigation.goBack()} title="Go back home" /> */}
       <View style={styles.page}>
-        <Text> HOMEPAGE</Text>
+        <Text> cp</Text>
       </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   page: {
     padding: 10,
@@ -21,4 +19,4 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
 });
-export default HomeScreen;
+export default ChangePassword;
