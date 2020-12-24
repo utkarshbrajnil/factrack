@@ -15,7 +15,7 @@ export default function OptionsPage({ navigation }) {
   const [choice, setChoice] = useState(require("../assets/unknown.png"));
   const [person, setPerson] = useState("Choose an option");
 
-  console.log(typeof choice);
+  
   return (
     <View style={styles.container}>
       <ImageBackground source={image} style={styles.image}>
