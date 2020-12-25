@@ -21,7 +21,7 @@ const height_logo = height * 0.28;
 
 export default function LoginScreen({ navigation }) {
   const [data, setData] = React.useState({
-    username: "",
+    email: "",
     password: "",
     check_textInputChange: false,
     secureTextEntry: true,
@@ -33,14 +33,14 @@ export default function LoginScreen({ navigation }) {
     if (val.trim().length >= 4) {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: true,
         isValidUser: true,
       });
     } else {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: false,
         isValidUser: false,
       });
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handlePasswordChange = (val) => {
-    if (val.trim().length >= 8) {
+    if (val.trim().length >= 6) {
       setData({
         ...data,
         password: val,
@@ -87,7 +87,7 @@ export default function LoginScreen({ navigation }) {
   const loginUser = (navigation) => {
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(data.email, data.password)
       .then(
         () => {
           alert("Login Successful");
@@ -120,7 +120,7 @@ export default function LoginScreen({ navigation }) {
           },
         ]}
       >
-        <Text
+        {/* <Text
           style={[
             styles.text_footer,
             {
@@ -129,9 +129,9 @@ export default function LoginScreen({ navigation }) {
           ]}
         >
           Email
-        </Text>
+        </Text> */}
         <View style={styles.action}>
-          <FontAwesome name="user-o" color="black" size={20} />
+          <FontAwesome name="user-o" color="black" size={25} />
           <TextInput
             placeholder="Your Email"
             placeholderTextColor="#666666"
@@ -154,12 +154,12 @@ export default function LoginScreen({ navigation }) {
         {data.isValidUser ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
-              Username must be 4 characters long.
+              email must be 4 characters long.
             </Text>
           </Animatable.View>
         )}
 
-        <Text
+        {/* <Text
           style={[
             styles.text_footer,
             {
@@ -169,9 +169,9 @@ export default function LoginScreen({ navigation }) {
           ]}
         >
           Password
-        </Text>
+        </Text> */}
         <View style={styles.action}>
-          <Feather name="lock" color="black" size={20} />
+          <Feather name="lock" color="black" size={25} />
           <TextInput
             placeholder="Your Password"
             placeholderTextColor="#666666"
@@ -196,7 +196,7 @@ export default function LoginScreen({ navigation }) {
         {data.isValidPassword ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
-              Password must be 8 characters long.
+              Password must be 6 characters long.
             </Text>
           </Animatable.View>
         )}
@@ -283,9 +283,9 @@ const styles = StyleSheet.create({
   },
   action: {
     flexDirection: "row",
-    marginTop: 10,
+    marginVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#f2f2f2",
+    borderBottomColor: "#7c73e6",
     paddingBottom: 5,
   },
   actionError: {
