@@ -16,13 +16,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import firebase from "firebase";
-
-// firebase.initializeApp(firebaseConfig);
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// } else {
-//   firebase.app(); // if already initialized, use that one
-// }
+import LottieView from "lottie-react-native";
 
 const { height } = Dimensions.get("screen");
 const height_logo = height * 0.28;
@@ -140,18 +134,19 @@ export default function SignupScreen({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <StatusBar backgroundColor="#7c73e6" barStyle="light-content" />
+        <StatusBar backgroundColor="#312E5C" barStyle="light-content" />
         <View style={styles.header}>
-          <Animatable.Image
-            resizeMode="stretch"
-            style={styles.logo}
-            source={require("../assets/welcome.png")}
-            animation="bounceIn"
-            duration={1500}
+          <LottieView
+            loop
+            autoPlay
+            // height={400}
+            // width={400}
+            source={require("../assets/welcome.json")}
           />
         </View>
         <Animatable.View
           animation="fadeInUpBig"
+          duration={1000}
           style={[
             styles.footer,
             {
@@ -160,11 +155,11 @@ export default function SignupScreen({ navigation }) {
           ]}
         >
           <View style={styles.action}>
-            <Icon name="mail" color="black" size={25} />
+            <Icon name="email-open-outline" color="#636363" size={30} />
             <TextInput
               keyboardType="email-address"
               placeholder="Your Email"
-              placeholderTextColor="#666666"
+              placeholderTextColor="#636363"
               style={[
                 styles.textInput,
                 {
@@ -190,10 +185,10 @@ export default function SignupScreen({ navigation }) {
           )}
 
           <View style={styles.action}>
-            <Icon name="lock" color="black" size={25} />
+            <Icon name="lock" color="#636363" size={30} />
             <TextInput
               placeholder="Your Password"
-              placeholderTextColor="#666666"
+              placeholderTextColor="#636363"
               secureTextEntry={data.secureTextEntry ? true : false}
               style={[
                 styles.textInput,
@@ -221,10 +216,10 @@ export default function SignupScreen({ navigation }) {
           )}
 
           <View style={styles.action}>
-            <Icon name="lock" color="black" size={25} />
+            <Icon name="account-outline" color="#636363" size={30} />
             <TextInput
               placeholder="Your Name"
-              placeholderTextColor="#666666"
+              placeholderTextColor="#636363"
               style={[
                 styles.textInput,
                 {
@@ -237,10 +232,10 @@ export default function SignupScreen({ navigation }) {
           </View>
 
           <View style={styles.action}>
-            <FontAwesome name="meetup" color="black" size={25} />
+            <Icon name="fingerprint" color="#636363" size={30} />
             <TextInput
               placeholder="Your facultyID"
-              placeholderTextColor="#666666"
+              placeholderTextColor="#636363"
               keyboardType="number-pad"
               style={[
                 styles.textInput,
@@ -259,7 +254,7 @@ export default function SignupScreen({ navigation }) {
               onPress={() => createProfile()}
             >
               <LinearGradient
-                colors={["#B0ABF0", "#7c73e6"]}
+                colors={["#635CB8", "#312E5C"]}
                 style={styles.signIn}
               >
                 <Text
@@ -280,7 +275,7 @@ export default function SignupScreen({ navigation }) {
               style={[
                 styles.signIn,
                 {
-                  borderColor: "#7c73e6",
+                  borderColor: "#312E5C",
                   borderWidth: 1,
                   marginTop: 15,
                 },
@@ -290,7 +285,7 @@ export default function SignupScreen({ navigation }) {
                 style={[
                   styles.textSign,
                   {
-                    color: "#7c73e6",
+                    color: "#312E5C",
                   },
                 ]}
               >
@@ -307,7 +302,7 @@ export default function SignupScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7c73e6",
+    backgroundColor: "#312E5C",
   },
   header: {
     flex: 1,
@@ -336,7 +331,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#7c73e6",
+    borderBottomColor: "#312E5C",
     paddingBottom: 5,
   },
   actionError: {
@@ -350,7 +345,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
-    color: "#05375a",
+    marginBottom: -10,
   },
   errorMsg: {
     color: "#FF0000",
@@ -375,5 +370,6 @@ const styles = StyleSheet.create({
   logo: {
     width: height_logo,
     height: height_logo,
+    //backgroundColor: "#fafafa",
   },
 });

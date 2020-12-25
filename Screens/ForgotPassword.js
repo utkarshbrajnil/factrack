@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -12,23 +12,19 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import firebase from "firebase";
 import LottieView from "lottie-react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const { height } = Dimensions.get("screen");
 const height_logo = height * 0.28;
 
-export default function LoginScreen({ navigation }) {
+export default function ForgotPassword({ navigation }) {
   const [data, setData] = useState({
     email: "",
-    password: "",
     check_textInputChange: false,
-    secureTextEntry: true,
     isValidUser: true,
-    isValidPassword: true,
   });
 
   const textInputChange = (val) => {
@@ -49,29 +45,6 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  const handlePasswordChange = (val) => {
-    if (val.trim().length >= 6) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: true,
-      });
-    } else {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-      });
-    }
-  };
-
-  const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
-    });
-  };
-
   const handleValidUser = (val) => {
     if (val.trim().length >= 4) {
       setData({
@@ -86,32 +59,29 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  const loginUser = (navigation) => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(data.email, data.password)
-      .then(
-        () => {
-          alert("Login Successful");
-          navigation.navigate("GetLocation");
-        },
-        (error) => {
-          alert(error.message);
-        }
-      );
+  const sendResetMail = () => {
+    var auth = firebase.auth();
+
+    auth
+      .sendPasswordResetEmail(data.email)
+      .then(function () {
+        alert(`Password reset mail has been sent to ${data.email}`);
+      })
+      .catch(function (error) {
+        alert(error.message);
+      });
   };
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#7c73e6" barStyle="light-content" />
+      <StatusBar backgroundColor="#4A458A" barStyle="light-content" />
       <View style={styles.header}>
         <LottieView
           loop
           autoPlay
-          style={{marginLeft: 35}}
-          height={250}
-          width={250}
-          source={require("../assets/loginanimation.json")}
+          height={400}
+          width={400}
+          source={require("../assets/forgotanimation.json")}
         />
       </View>
       <Animatable.View
@@ -152,46 +122,13 @@ export default function LoginScreen({ navigation }) {
           </Animatable.View>
         )}
 
-        <View style={styles.action}>
-          <Icon name="lock" color="#636363" size={30} />
-          <TextInput
-            placeholder="Your Password"
-            placeholderTextColor="#636363"
-            secureTextEntry={data.secureTextEntry ? true : false}
-            style={[
-              styles.textInput,
-              {
-                color: "black",
-              },
-            ]}
-            autoCapitalize="none"
-            onChangeText={(val) => handlePasswordChange(val)}
-          />
-          <TouchableOpacity onPress={updateSecureTextEntry}>
-            {data.secureTextEntry ? (
-              <Feather style={{marginBottom: -10}} name="eye-off" color="grey" size={20} />
-            ) : (
-              <Feather style={{marginBottom: -10}} name="eye" color="grey" size={20} />
-            )}
-          </TouchableOpacity>
-        </View>
-        {data.isValidPassword ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>
-              Password must be 6 characters long.
-            </Text>
-          </Animatable.View>
-        )}
-
-        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-          <Text style={{ color: "#7c73e6", marginTop: 15 }}>
-            Forgot password?
-          </Text>
-        </TouchableOpacity>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn} onPress={() => loginUser()}>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => sendResetMail()}
+          >
             <LinearGradient
-              colors={["#B0ABF0", "#7c73e6"]}
+              colors={["#7c73e6", "#4A458A"]}
               style={styles.signIn}
             >
               <Text
@@ -202,34 +139,33 @@ export default function LoginScreen({ navigation }) {
                   },
                 ]}
               >
-                Sign In
+                Send verification mail
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Signup")}
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={[
+            styles.signIn,
+            {
+              borderColor: "#4A458A",
+              borderWidth: 1,
+              marginTop: 15,
+            },
+          ]}
+        >
+          <Text
             style={[
-              styles.signIn,
+              styles.textSign,
               {
-                borderColor: "#7c73e6",
-                borderWidth: 1,
-                marginTop: 15,
+                color: "#4A458A",
               },
             ]}
           >
-            <Text
-              style={[
-                styles.textSign,
-                {
-                  color: "#7c73e6",
-                },
-              ]}
-            >
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+            Back to login
+          </Text>
+        </TouchableOpacity>
       </Animatable.View>
     </View>
   );
@@ -238,17 +174,17 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7c73e6",
+    backgroundColor: "#4A458A",
   },
   header: {
-    flex: 2,
+    flex: 3,
     paddingHorizontal: 20,
     paddingBottom: 50,
     alignItems: "center",
     justifyContent: "center",
   },
   footer: {
-    flex: 3,
+    flex: 2,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
@@ -267,8 +203,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#7c73e6",
+    borderBottomColor: "#4A458A",
     paddingBottom: 5,
+    alignItems: "center"
   },
   actionError: {
     flexDirection: "row",
@@ -282,8 +219,8 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
     color: "#05375a",
-    marginBottom: -10,
-    fontSize: 15
+    fontSize: 15,
+    marginBottom: -10
   },
   errorMsg: {
     color: "#FF0000",

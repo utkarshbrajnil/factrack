@@ -34,10 +34,7 @@ export default function App() {
   } else {
     return (
       <>
-      {isAuthenticated ? <DrawerNavigator /> : <StackNavigator />}
-      {/* <DrawerNavigator/> */}
-      {/* <SignupScreen/> */}
-      
+      {isAuthenticated ? <DrawerNavigator /> : <StackNavigator />}      
       </>
       
     )
