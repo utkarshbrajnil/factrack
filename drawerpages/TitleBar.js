@@ -9,7 +9,7 @@ function TitleBar({navigation}) {
           style={styles.icon}
           name="menu"
           size={38}
-          color="grey"
+          color="#fafafa"
           style={{ paddingLeft: 20 }}
           onPress={() => navigation.openDrawer()}
         />
@@ -22,7 +22,7 @@ titlebar: {
     marginTop: 24,
     flexDirection: "row",
     flex: 1,
-    backgroundColor: "lightblue",
+    backgroundColor: "#7c73e6",
     alignItems: "center",
     paddingLeft: 10,
   },

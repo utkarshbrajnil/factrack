@@ -36,6 +36,7 @@ export default function App() {
       <>
       {isAuthenticated ? <DrawerNavigator /> : <StackNavigator />}
       {/* <DrawerNavigator/> */}
+      {/* <SignupScreen/> */}
       
       </>
       

@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
 
   searchbar: {
     justifyContent: "center",
-    //marginTop: height,
   },
 
   searchInput: {
