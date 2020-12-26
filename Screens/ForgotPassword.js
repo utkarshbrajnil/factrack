@@ -77,7 +77,7 @@ export default function ForgotPassword({ navigation }) {
       <StatusBar backgroundColor="#4A458A" barStyle="light-content" />
       <View style={styles.header}>
         <LottieView
-          loop
+          
           autoPlay
           height={400}
           width={400}

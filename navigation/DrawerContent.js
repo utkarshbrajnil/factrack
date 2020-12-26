@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React, {useState , useEffect} from "react";
+import { View, StyleSheet  } from "react-native";
 import {
   useTheme,
   Avatar,
@@ -18,7 +18,31 @@ import firebase from "firebase";
 // import{ AuthContext } from '../components/context';
 
 export default function DrawerContent(props) {
-  const paperTheme = useTheme();
+
+  const [name, setName] = useState("")
+  const [facID, setFacID] = useState("")
+  const [email, setEmail] = useState("")
+
+
+  useEffect(() => {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+      console.log(user.uid);
+    } else {
+      console.log("No user");
+    }
+
+    let details = firebase.database().ref("users").child(`${user.uid}`);
+    details.on("value", (val) => {
+      setName(val.child("name").val());
+      setFacID(val.child("facID").val());
+      setEmail(val.child("email").val());
+    });
+    // return () => {
+    //   cleanup;
+    // };
+  }, []);
 
   const logOut = () => {
     firebase
@@ -46,15 +70,15 @@ export default function DrawerContent(props) {
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles.title}>Aryan Thakre</Title>
-                <Caption style={styles.caption}>18BCE1189</Caption>
+                <Title style={styles.title}>{name}</Title>
+                <Caption style={styles.caption}>{facID}</Caption>
               </View>
             </View>
 
             <View style={styles.row}>
               <View style={styles.section}>
                 <Caption style={styles.caption}>
-                  aryan.thakre2018@vitstudent.ac.in
+                  {email}
                 </Caption>
               </View>
             </View>

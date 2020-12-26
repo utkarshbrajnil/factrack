@@ -6,8 +6,11 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { Button } from "native-base";
+import * as Animatable from "react-native-animatable";
+import { LinearGradient } from "expo-linear-gradient";
 
 const image = require("../assets/optionBG.png");
 
@@ -15,13 +18,22 @@ export default function OptionsPage({ navigation }) {
   const [choice, setChoice] = useState(require("../assets/unknown.png"));
   const [person, setPerson] = useState("Choose an option");
 
-  
   return (
     <View style={styles.container}>
-      <ImageBackground source={image} style={styles.image}>
-        <View style={styles.avatar}>
-          <Image style={{ height: 250, width: 250, flex: 1 }} source={choice} />
-        </View>
+      <StatusBar backgroundColor="#312E5C" barStyle="light-content" />
+      <View style={styles.header}>
+        <Image style={{ height: 250, width: 250, flex: 1 }} source={choice} />
+      </View>
+      <Animatable.View
+        animation="fadeInUpBig"
+        duration={1000}
+        style={[
+          styles.footer,
+          {
+            backgroundColor: "#fafafa",
+          },
+        ]}
+      >
         <Text style={styles.optionText}>
           {person === "Choose an option" ? person : `I am a ${person}`}
         </Text>
@@ -35,7 +47,7 @@ export default function OptionsPage({ navigation }) {
           >
             <View style={styles.optionview}>
               <Image
-                style={{ height: 250, width: 250, flex: 1 }}
+                style={{ height: 200, width: 180, flex: 1 }}
                 source={require("../assets/teacher.png")}
               />
             </View>
@@ -49,31 +61,39 @@ export default function OptionsPage({ navigation }) {
           >
             <View style={styles.optionview}>
               <Image
-                style={{ height: 250, width: 250, flex: 1 }}
+                style={{ height: 200, width: 180, flex: 1 }}
                 source={require("../assets/student.png")}
               />
             </View>
           </TouchableOpacity>
         </View>
-        <Button
-          full
-          success
-          style={{
-            margin: 40,
-            borderRadius: 20,
-            backgroundColor: "#FFB81D",
-          }}
-          onPress={() => {
-            if (person == "Teacher") navigation.navigate("Login");
-            else if (person == "Student") navigation.navigate("Show");
-            else alert("Please select a choice ");
-          }}
-        >
-          <Text style={{ color: "#0F2C52", fontSize: 22, fontWeight: "bold" }}>
-            Next
-          </Text>
-        </Button>
-      </ImageBackground>
+        <View style={styles.button}>
+          <TouchableOpacity
+            style={styles.signIn}
+            onPress={() => {
+              if (person == "Teacher") navigation.navigate("Login");
+              else if (person == "Student") navigation.navigate("Show");
+              else alert("Please select a choice ");
+            }}
+          >
+            <LinearGradient
+              colors={["#635CB8", "#312E5C"]}
+              style={styles.signIn}
+            >
+              <Text
+                style={[
+                  styles.textSign,
+                  {
+                    color: "#fff",
+                  },
+                ]}
+              >
+                Next
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </Animatable.View>
     </View>
   );
 }
@@ -83,51 +103,65 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  header: {
+    flex: 2,
+    paddingHorizontal: 20,
+    paddingBottom: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  footer: {
+    flex: 3,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: "rgba(217,250,255,1)",
+    backgroundColor: "#312E5C",
   },
-  avatar: {
-    // flex:1,
-    height: 250,
-    width: 250,
-    borderRadius: 125,
-    backgroundColor: "white",
-    // position: "absolute",
-    top: 50,
-    alignSelf: "center",
-    overflow: "hidden",
-  },
+
   parentview: {
     flex: 1,
-    margin: 10,
-    padding: 10,
     // backgroundColor:'blue',
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
-  optionImage: {
-    flex: 1,
-    alignSelf: "center",
-  },
+  // optionImage: {
+  //   flex: 1,
+  //   alignSelf: "center",
+  // },
   optionview: {
     borderRadius: 50,
-    width: 150,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     height: 100,
     backgroundColor: "white",
-    margin: 20,
     overflow: "hidden",
   },
   optionText: {
     fontSize: 30,
     alignSelf: "center",
-    marginTop: 150,
-    color: "#FFB81D",
+    color: "#312E5C",
+    fontWeight: "bold",
+  },
+  button: {
+    alignItems: "center",
+    marginTop: 50,
+  },
+  signIn: {
+    width: "100%",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  textSign: {
+    fontSize: 18,
     fontWeight: "bold",
   },
 });
