@@ -39,9 +39,9 @@ export default function DrawerContent(props) {
       setFacID(val.child("facID").val());
       setEmail(val.child("email").val());
     });
-    // return () => {
-    //   cleanup;
-    // };
+    return () => {
+      console.log("Drawer unmounted");
+    }
   }, []);
 
   const logOut = () => {

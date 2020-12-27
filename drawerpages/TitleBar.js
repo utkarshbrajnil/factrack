@@ -19,7 +19,7 @@ function TitleBar({navigation}) {
 
 const styles=StyleSheet.create({
 titlebar: {
-    marginTop: 24,
+    //marginTop: 24,
     flexDirection: "row",
     flex: 1,
     backgroundColor: "#7c73e6",

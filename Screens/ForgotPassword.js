@@ -76,16 +76,17 @@ export default function ForgotPassword({ navigation }) {
     <View style={styles.container}>
       <StatusBar backgroundColor="#4A458A" barStyle="light-content" />
       <View style={styles.header}>
-        <LottieView
+        {/* <LottieView
           
           autoPlay
           height={400}
           width={400}
           source={require("../assets/forgotanimation.json")}
-        />
+        /> */}
       </View>
       <Animatable.View
         animation="fadeInUpBig"
+        duration={500}
         style={[
           styles.footer,
           {

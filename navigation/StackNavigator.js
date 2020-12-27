@@ -4,12 +4,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import ShowLocation from "../Screens/ShowLocation";
-import GetLocationScreen from "../Screens/GetLocationScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import OptionsPage from "../Screens/OptionsPage";
 import OnBoarding from "../Screens/OnBoarding";
 import SignupScreen from "../Screens/SignupScreen";
 import ForgotPassword from "../Screens/ForgotPassword";
+import Splash from "../Screens/Splash";
 
 const Stack = createStackNavigator();
 
@@ -52,7 +52,6 @@ function MyStack() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="Signup" component={SignupScreen} />
-      <Stack.Screen name="GetLocation" component={GetLocationScreen} />
     </Stack.Navigator>
   );
 }

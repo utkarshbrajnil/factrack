@@ -22,7 +22,7 @@ export default function OptionsPage({ navigation }) {
     <View style={styles.container}>
       <StatusBar backgroundColor="#312E5C" barStyle="light-content" />
       <View style={styles.header}>
-        <Image style={{ height: 250, width: 250, flex: 1 }} source={choice} />
+        <Image style={{ height: 250, width: 250, flex: 1, borderRadius: 20 }} source={choice} />
       </View>
       <Animatable.View
         animation="fadeInUpBig"
@@ -30,7 +30,7 @@ export default function OptionsPage({ navigation }) {
         style={[
           styles.footer,
           {
-            backgroundColor: "#fafafa",
+            backgroundColor: "#ffe9e3",
           },
         ]}
       >
@@ -53,7 +53,7 @@ export default function OptionsPage({ navigation }) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          <TouchableOpacity 
             onPress={() => {
               setChoice(require("../assets/student.png"));
               setPerson("Student");
@@ -109,11 +109,12 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     alignItems: "center",
     justifyContent: "center",
+    
   },
   footer: {
     flex: 3,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
@@ -131,17 +132,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // optionImage: {
-  //   flex: 1,
-  //   alignSelf: "center",
-  // },
+  
   optionview: {
-    borderRadius: 50,
-    // alignItems: "center",
-    // justifyContent: "center",
+    borderRadius: 30,
+    elevation: 20,
     height: 100,
+    marginHorizontal: 5,
     backgroundColor: "white",
     overflow: "hidden",
+    borderBottomWidth: 0.2
+    
   },
   optionText: {
     fontSize: 30,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 30,
   },
   signIn: {
     width: "100%",

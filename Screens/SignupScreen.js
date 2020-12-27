@@ -136,13 +136,13 @@ export default function SignupScreen({ navigation }) {
       <View style={styles.container}>
         <StatusBar backgroundColor="#312E5C" barStyle="light-content" />
         <View style={styles.header}>
-          <LottieView
+          {/* <LottieView
             loop
             autoPlay
             // height={400}
             // width={400}
             source={require("../assets/welcome.json")}
-          />
+          /> */}
         </View>
         <Animatable.View
           animation="fadeInUpBig"

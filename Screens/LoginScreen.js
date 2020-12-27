@@ -86,14 +86,13 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  const loginUser = (navigation) => {
+  const loginUser = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(data.email, data.password)
       .then(
         () => {
           alert("Login Successful");
-          navigation.navigate("GetLocation");
         },
         (error) => {
           alert(error.message);
@@ -105,14 +104,14 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar backgroundColor="#7c73e6" barStyle="light-content" />
       <View style={styles.header}>
-        <LottieView
+        {/* <LottieView
           loop
           autoPlay
           style={{marginLeft: 35}}
           height={250}
           width={250}
           source={require("../assets/loginanimation.json")}
-        />
+        /> */}
       </View>
       <Animatable.View
         animation="fadeInUpBig"

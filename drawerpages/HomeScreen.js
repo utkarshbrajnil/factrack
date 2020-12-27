@@ -2,64 +2,72 @@ import React, { useState, useEffect } from "react";
 import { Button, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import TitleBar from "./TitleBar";
-import { IntentLauncherAndroid } from "expo";
+
 import * as Location from "expo-location";
 import firebase from "firebase";
 
 function HomeScreen({ navigation }) {
-  const [location, setLocation] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const [status, setStatus] = useState(false);
+  const [errorMsg, setError] = useState("");
+  //const [status, setStatus] = useState(false);
   const [lat, setLatitude] = useState(22);
   const [long, setLongitude] = useState(88);
 
-  const enableLocation = async () => {
-    let { status } = await Location.requestPermissionsAsync();
-    if (status !== "granted") {
-      setStatus(false);
-      setErrorMsg("Permission to access location was denied");
-      console.log(errorMsg);
-      return;
-    }
-    setStatus(true);
-  };
+  // const enableLocation = async () => {
+  //   let { status } = await Location.requestPermissionsAsync();
+  //   if (status !== "granted") {
+  //     console.log(errorMsg);
+  //     return;
+  //   }
+  //   setStatus(true);
+  // };
+
+  // useEffect(() => {
+  //   async () => {
+  //     let { status } = await Location.requestPermissionsAsync();
+  //     if (status !== "granted") {
+  //       setErrorMsg("Permission to access location was denied");
+  //       setStatus(true);
+  //       return;
+  //     }
+  //   };
+  // }, []);
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        setStatus(false);
-        setErrorMsg("Permission to access location was denied");
-        console.log(errorMsg);
-        return;
-      }
-      setStatus(true);
-
-      navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setLatitude(latitude);
-          setLongitude(longitude);
-        },
-        (error) => console.log(error),
-        {
-          enableHighAccuracy: true,
-          timeout: 20000,
-          maximumAge: 1000,
-          distanceFilter: 10,
+    Location.requestPermissionsAsync()
+      .then(({ status }) => {
+        if (status !== "granted") {
+          return;
         }
-      );
-      console.log(lat, long);
+      })
+      .catch((e) => console.log(e.message));
 
-      await firebase
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        setError("");
+        setLatitude(pos.coords.latitude);
+        setLongitude(pos.coords.longitude);
+        firebase
         .database()
         .ref(`users/${firebase.auth().currentUser.uid}/coords`)
         .set({
           latitude: lat,
           longitude: long,
         });
-    })();
-  }, [lat,long]);
+        console.log(pos.coords.latitude, pos.coords.longitude);
+      },
+      (e) => setError(e.message),
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+        distanceFilter: 10,
+      }
+    );
+    return () => {
+      console.log(watchId)
+      navigator.geolocation.clearWatch(watchId);
+    }
+  }, []);
 
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
@@ -69,18 +77,10 @@ function HomeScreen({ navigation }) {
         <Text> HOMEPAGE</Text>
         <View style={styles.location}>
           <Text style={styles.locationText}> Location</Text>
-          <TouchableOpacity
-            onPress={() => {
-              status
-                ? alert("disable location from settings")
-                : enableLocation();
-            }}
-          >
-            {status ? (
-              <Icon name="location-on" size={50} color="green" />
-            ) : (
-              <Icon name="location-off" size={50} color="red" />
-            )}
+          <TouchableOpacity>
+            <Icon name="location-on" size={50} color="green" />
+
+            <Icon name="location-off" size={50} color="red" />
           </TouchableOpacity>
         </View>
       </View>
@@ -108,15 +108,5 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 });
-export default HomeScreen;
 
-// enableLocationfromSetting = () => {
-//   if (Platform.OS == "ios") {
-//     Linking.openURL("app-settings:");
-//   } else {
-//     IntentLauncherAndroid.startActivityAsync(
-//       IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
-//     );
-//   }
-//this.setState({ openSetting: false });
-// };
+export default HomeScreen;
