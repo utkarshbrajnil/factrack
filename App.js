@@ -20,7 +20,9 @@ export default function App() {
     setIsAuthenticated(!!user);
   });
 
-  if (!isAuthReady) {
+  console.log("App.js: isAuthReady: " + isAuthReady)
+
+  if (!isAuthReady) {  
     return (
       <>
         <ActivityIndicator size="large" color="red" />

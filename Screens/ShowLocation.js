@@ -8,47 +8,65 @@ import { Marker } from "react-native-maps";
 const height = StatusBar.currentHeight;
 
 const ShowLocation = () => {
-  const LAD = 0.1;
-  const LOD = 0.5;
+  const LAD = 0.01;
+  const LOD = 0.001;
   const [search, updateSearch] = useState("");
   const [lat, setLat] = useState(22);
   const [long, setLong] = useState(22);
 
   async function fetchData() {
-    let key = "";
-    const data = await firebase.database().ref("users");
-    if (data !== null) {
-      data
-        .orderByChild("name")
-        .equalTo(search)
-        .on("value", function (snapshot) {
-          console.log(snapshot.val());
-          snapshot.forEach(function (value) {
-            console.log(value.key);
-            key = value.key;
-            console.log(typeof key);
-          });
-        });
 
-      let lati = await firebase
-        .database()
-        .ref("users")
-        .child(key)
-        .child("coords")
-        .child("latitude");
-      let longi = await firebase
-        .database()
-        .ref("users")
-        .child(key)
-        .child("coords")
-        .child("longitude");
-      lati.on("value", (lat) => {
-        setLat(lat.val());
-      });
-      longi.on("value", (long) => {
-        setLong(long.val());
-      });
+    try {
+      let key = "";
+      const data = await firebase.database().ref("users");
+      console.log("ShowLocation: data: " + data)
+      console.log("ShowLocation: search: " + search)
+      if (data !== null) {
+
+        data
+          .orderByChild("name")
+          .equalTo(search)
+          .on("value", function (snapshot) {
+            console.log(snapshot.val());
+            snapshot.forEach(async function (value) {
+              console.log(value.key);
+              key = value.key;
+              console.log(typeof key);
+
+              console.log("key: " + key)
+
+              let lati = await firebase
+                .database()
+                .ref("users")
+                .child(key)
+                .child("coords")
+                .child("latitude");
+
+              console.log("ShowLocation: lati: " + lati)
+              let longi = await firebase
+                .database()
+                .ref("users")
+                .child(key)
+                .child("coords")
+                .child("longitude");
+
+              console.log("ShowLocation: longi: " + longi)
+              lati.on("value", (lat) => {
+                setLat(lat.val());
+                console.log("ShowLocation: latitude: " + lat.val)
+              });
+              longi.on("value", (long) => {
+                setLong(long.val());
+                console.log("ShowLocation: longitude: " + data)
+              });
+            });
+          })
+
+      }
+    } catch (error) {
+      console.log(error)
     }
+
   }
 
   return (
