@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import TitleBar from "./TitleBar";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import ModalStatus from "./Modal";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
 

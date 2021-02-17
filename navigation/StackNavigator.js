@@ -9,7 +9,7 @@ import OptionsPage from "../Screens/OptionsPage";
 import OnBoarding from "../Screens/OnBoarding";
 import SignupScreen from "../Screens/SignupScreen";
 import ForgotPassword from "../Screens/ForgotPassword";
-import Splash from "../Screens/Splash";
+
 
 const Stack = createStackNavigator();
 

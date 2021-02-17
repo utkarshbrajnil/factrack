@@ -54,6 +54,7 @@ export default function OptionsPage({ navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity 
+          
             onPress={() => {
               setChoice(require("../assets/student.png"));
               setPerson("Student");
@@ -135,12 +136,14 @@ const styles = StyleSheet.create({
   
   optionview: {
     borderRadius: 30,
-    elevation: 20,
+    // elevation: 20,
     height: 100,
     marginHorizontal: 5,
     backgroundColor: "white",
     overflow: "hidden",
-    borderBottomWidth: 0.2
+    borderBottomWidth: 1,
+    borderRightWidth:1,
+    borderColor: "#312E5C",
     
   },
   optionText: {

@@ -65,9 +65,9 @@ export default function DrawerContent(props) {
               <Avatar.Image
                 source={{
                   uri:
-                    "https://instagram.fccu5-1.fna.fbcdn.net/v/t51.2885-19/s320x320/104704884_640416233238001_8205067454928794298_n.jpg?_nc_ht=instagram.fccu5-1.fna.fbcdn.net&_nc_ohc=ZadolnuXNy8AX-B7A2Y&tp=1&oh=83fa9255cf9ce9f602f397636d8536b0&oe=600D2B4D",
+                    "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
                 }}
-                size={50}
+                size={60}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
                 <Title style={styles.title}>{name}</Title>

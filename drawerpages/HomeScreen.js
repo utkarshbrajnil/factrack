@@ -80,7 +80,7 @@ function HomeScreen({ navigation }) {
           <TouchableOpacity>
             <Icon name="location-on" size={50} color="green" />
 
-            <Icon name="location-off" size={50} color="red" />
+            {/* <Icon name="location-off" size={50} color="red" /> */}
           </TouchableOpacity>
         </View>
       </View>

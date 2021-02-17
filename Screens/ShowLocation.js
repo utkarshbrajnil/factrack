@@ -11,8 +11,8 @@ const ShowLocation = () => {
   const LAD = 0.01;
   const LOD = 0.001;
   const [search, updateSearch] = useState("");
-  const [lat, setLat] = useState(22);
-  const [long, setLong] = useState(22);
+  const [lat, setLat] = useState(12.8406);
+  const [long, setLong] = useState(80.1534);
 
   async function fetchData() {
 

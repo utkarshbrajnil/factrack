@@ -2,19 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Button, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { DataTable } from "react-native-paper";
 import firebase from "firebase";
-import * as ImagePicker from 'expo-image-picker';
-import TitleBar from './TitleBar';
+import * as ImagePicker from "expo-image-picker";
+import TitleBar from "./TitleBar";
 import { Icon } from "react-native-elements";
 
 function Profile({ navigation }) {
   const [name, setName] = useState(" ");
   const [facID, setFacID] = useState(" ");
   const [email, setEmail] = useState(" ");
-  const [image, setImage] = useState('');
-
+  const [image, setImage] = useState("");
+  const [greeting, setGreeting] = useState(" ");
 
   useEffect(() => {
     var user = firebase.auth().currentUser;
+    var today = new Date();
+    var curHr = today.getHours();
+
+    if (curHr < 12) {
+      setGreeting("Good Morning");
+    } else if (curHr < 18) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
+    }
 
     if (user) {
       console.log(user.uid);
@@ -35,10 +45,12 @@ function Profile({ navigation }) {
 
   useEffect(() => {
     (async () => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
+      if (Platform.OS !== "web") {
+        const {
+          status,
+        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
         }
       }
     })();
@@ -51,15 +63,18 @@ function Profile({ navigation }) {
       aspect: [4, 3],
       quality: 1,
     });
-    if(result.uri !== null) {
+    if (result.uri !== null) {
       setImage(result.uri);
       console.log(image);
-  
+
       const resp = await fetch(image);
       const blob = await resp.blob();
-      
+
       let userId = firebase.auth().currentUser.uid;
-      var ref = firebase.storage().ref(`${userId}`).child("images/" + "test-image");
+      var ref = firebase
+        .storage()
+        .ref(`${userId}`)
+        .child("images/" + "test-image");
       ref.put(blob);
     } else {
       alert("Couldn't upload image");
@@ -69,21 +84,23 @@ function Profile({ navigation }) {
   const retrieveImage = () => {
     let userId = firebase.auth().currentUser.uid;
 
-    firebase.storage().ref(`${userId}/images/test-image`).getDownloadURL().then(uri => {
-      console.log(uri);
-    }).catch(e => alert("Error getting download uri", e.message))
-  }
-
-
+    firebase
+      .storage()
+      .ref(`${userId}/images/test-image`)
+      .getDownloadURL()
+      .then((uri) => {
+        console.log(uri);
+      })
+      .catch((e) => alert("Error getting download uri", e.message));
+  };
 
   return (
     <View style={styles.container}>
-      <TitleBar navigation={navigation}/>
+      <TitleBar navigation={navigation} />
       <View style={styles.page}>
-        <Text style={styles.text}>Good Morning ma'am</Text>
+        <Text style={styles.text}>{greeting}</Text>
         {/*time*/}
         <DataTable styles={styles.card}>
-          
           <DataTable.Row>
             <DataTable.Cell>Name</DataTable.Cell>
             <DataTable.Cell numeric>{name}</DataTable.Cell>
@@ -98,18 +115,16 @@ function Profile({ navigation }) {
             <DataTable.Cell>EmailID</DataTable.Cell>
             <DataTable.Cell numeric>{email}</DataTable.Cell>
           </DataTable.Row>
-
         </DataTable>
-        <Text style={{alignSelf: "center", margin: 20}}>Choose an image from gallery</Text>
-          <TouchableOpacity onPress={pickImage}>
-            <View style={styles.picker}>
-            <Icon
-                name="camera-alt"
-                color="black"
-              />
-            </View>
-          </TouchableOpacity>
-          <Button title="Download Image" onPress={retrieveImage}/>
+        <Text style={{ alignSelf: "center", margin: 20 }}>
+          Choose an image from gallery
+        </Text>
+        <TouchableOpacity onPress={pickImage}>
+          <View style={styles.picker}>
+            <Icon name="camera-alt" color="black" />
+          </View>
+        </TouchableOpacity>
+        <Button title="Download Image" onPress={retrieveImage} />
       </View>
     </View>
   );
@@ -141,10 +156,10 @@ const styles = StyleSheet.create({
     height: 70,
     width: 70,
     borderRadius: 10,
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: "white",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
